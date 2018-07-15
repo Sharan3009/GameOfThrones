@@ -1,0 +1,86 @@
+<div class="container">
+  <div class="row">
+    <!-- sort by button for sorting in ascending and descending starts here -->
+    <div class="col-auto">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          Sort By
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <!-- setting instance variable to appropriate values for sorting -->
+          <a class="dropdown-item" style="cursor:pointer;" (click)="sortName='name';sortBool=false">Ascending</a>
+          <a class="dropdown-item" style="cursor:pointer;" (click)="sortName='name';sortBool=true">Descending</a>
+        </div>
+      </div>
+    </div>
+    <!-- sort by button for sorting in ascending and descending ends here -->
+    <!-- Caregory button for filtering books, character or houses starts here -->
+    <div class="col-auto">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          Categories
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <!-- calling respective fucntions on clicking -->
+          <a class="dropdown-item" style="cursor:pointer;" (click)="ngOnInit()">All</a>
+          <a class="dropdown-item" style="cursor:pointer;" (click)="getBooks()">Books</a>
+          <a class="dropdown-item" style="cursor:pointer;" (click)="getCharacters()">Characters</a>
+          <a class="dropdown-item" style="cursor:pointer;" (click)="getHouses()">Houses</a>
+        </div>
+      </div>
+    </div>
+    <!-- Caregory button for filtering books, character or houses ends here -->
+  </div>
+</div>
+<!-- loader animation -->
+<div class="container top-buffer d-flex justify-content-center" *ngIf="allCards==undefined || allCards.length ==0">
+  <div class="loader"></div>
+</div>
+<!-- single ngFor loop for all the cards -->
+<div class="container" *ngIf="allCards.length > 0">
+  <div class="row">
+    <!-- orderBy pipe for sorting -->
+    <div *ngFor="let card of allCards | orderBy : sortName : sortBool" class="col-lg-4 col-md-6 col-12 card-padding">
+      <!-- House card -->
+      <div class="card border border-warning" *ngIf="card.region" style="height: 100%;">
+        <div class="card-header text-warning">
+          <h3>House</h3>
+        </div>
+        <img class="card-img-top" src="../../assets/images/house.jpg" style="height:50%;" alt="Card image cap">
+        <div class="card-body" style="background-color: #F7DFB3;">
+          <h5 class="card-title text-muted" *ngIf="card.name==''">&nbsp;</h5>
+          <h5 class="card-title">{{card.name}}</h5>
+          <p class="card-text">Region:&nbsp;{{card.region}}</p>
+          <a href="#" class="btn btn-primary" [routerLink]="['/view',card.url.split('api/').pop()]">View</a>
+        </div>
+      </div>
+      <!-- Character Card -->
+      <div class="card border border-success" *ngIf="card.gender" style="height: 100%;">
+        <div class="card-header text-success">
+          <h3>Character</h3>
+        </div>
+        <img class="card-img-top" src="../../assets/images/character.jpg" style="height:50%;" alt="Card image cap">
+        <div class="card-body" style="background-color: #E1FFD3;">
+          <h5 class="card-title">Name: {{card.name}}</h5>
+          <p class="card-text">Gender:&nbsp;{{card.gender}}</p>
+          <a href="#" class="btn btn-primary" [routerLink]="['/view',card.url.split('api/').pop()]">View</a>
+        </div>
+      </div>
+      <!-- Book Card -->
+      <div class="card border border-danger" *ngIf="card.isbn" style="height: 100%;">
+        <div class="card-header text-danger">
+          <h3>Book</h3>
+        </div>
+        <img class="card-img-top" src="../../assets/images/book.png" style="height:50%;" alt="Card image cap">
+        <div class="card-body" style="background-color: #FFECDD;">
+          <h5 class="card-title">{{card.name}}</h5>
+          <h5 class="card-title text-muted" *ngIf="card.name==''">&nbsp;</h5>
+          <p class="card-text">isbn:&nbsp;{{card.isbn}}</p>
+          <a href="#" class="btn btn-primary" [routerLink]="['/view',card.url.split('api/').pop()]">View</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

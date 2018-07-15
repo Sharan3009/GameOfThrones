@@ -1,0 +1,8 @@
+.col-12{
+    word-break:break-all;
+}
+.underline{
+    color:#FFFFFF;
+    text-decoration: underline;
+    cursor:pointer;
+}

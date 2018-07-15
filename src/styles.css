@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+.loader {
+    border: 16px solid;
+    border-radius: 50%;
+    border-top: 16px solid #000000;
+    width: 70px;
+    height: 70px;
+    animation: spin 0.5s linear infinite;
+  }
+  @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+  }

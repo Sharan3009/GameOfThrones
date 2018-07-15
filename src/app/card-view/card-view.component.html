@@ -1,0 +1,417 @@
+<!-- loading animation before the data loads -->
+<div class="container top-buffer d-flex justify-content-center" *ngIf="card==undefined">
+  <div class="loader"></div>
+</div>
+<!-- the card information after the card gets defined -->
+<div class="container" *ngIf="card!=undefined">
+  <div class="container text-white">
+    <!-- defining only character details -->
+    <div class="row" *ngIf="card.gender">
+      <div class="col d-flex justify-content-center text-success">
+        <h2>CHARACTER</h2>
+      </div>
+    </div>
+  </div>
+  <div class="container text-white">
+    <!-- defining only book details -->
+    <div class="row" *ngIf="card.isbn">
+      <div class="col d-flex justify-content-center text-danger">
+        <h2>BOOK</h2>
+      </div>
+    </div>
+  </div>
+  <div class="container text-white">
+    <!-- defining only houses details -->
+    <div class="row" *ngIf="card.region">
+      <div class="col d-flex justify-content-center text-warning">
+        <h2>HOUSE</h2>
+      </div>
+    </div>
+  </div>
+  <!-- goback button -->
+  <div class="container">
+    <div>
+      <button type="button" class="btn btn-warning" (click)="goBackToPreviousPage()">Go Back</button>
+    </div>
+  </div>
+  <br>
+  <div class="container text-white">
+    <!-- rows for character url -->
+    <div class="row">
+      <div class="col-lg-3 col-12">
+        <h4>Name:</h4>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="card.name">
+        {{card.name}}
+      </div>
+      <div class="col-lg-7 col-12 text-muted" *ngIf="card.name==''">
+        Not Available
+      </div>
+    </div>
+    <div class="row" *ngIf="card.gender">
+      <div class="col-lg-3 col-12">
+        <h4>Gender:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.gender}}
+      </div>
+    </div>
+    <div class="row" *ngIf="card.born">
+      <div class="col-lg-3 col-12">
+        <h4>Date of Birth:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.born}}
+      </div>
+    </div>
+    <div class="row" *ngIf="card.died">
+      <div class="col-lg-3 col-12">
+        <h4>Died:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.died}}
+      </div>
+    </div>
+    <!-- checking if array is available and there is not only blank element present in the array -->
+    <div class="row" *ngIf="card.titles && card.titles[0]">
+      <div class="col-lg-3 col-12">
+        <h4>Titles:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        <span *ngFor="let title of card.titles; let isLast=last">{{title}}{{isLast?'':','}}</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.aliases && card.aliases[0]">
+      <div class="col-lg-3 col-12">
+        <h4>Aliases:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        <span *ngFor="let alias of card.aliases; let isLast=last">{{alias}}{{isLast?'':','}}</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.father">
+      <div class="col-lg-3 col-12">
+        <h4>Father:</h4>
+      </div>
+      <!-- if page is loaded on view path -->
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='view'">
+        <!-- by clicking on api link present on the page, the next view will be rendered on redirect path -->
+        <a class="underline" [routerLink]="['/redirect',card.father.split('api/').pop()]">{{card.father}}</a>
+      </div>
+      <!-- if page is loaded on redirect path -->
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='redirect'">
+        <!-- by clicking on api link link present on the page, the next view will be render on view path -->
+        <a class="underline" [routerLink]="['/view',card.father.split('api/').pop()]">{{card.father}}</a>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.mother">
+      <div class="col-lg-3 col-12">
+        <h4>Mother:</h4>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='view'">
+        <a class="underline" [routerLink]="['/redirect',card.mother.split('api/').pop()]">{{card.mother}}</a>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='redirect'">
+        <a class="underline" [routerLink]="['/view',card.mother.split('api/').pop()]">{{card.mother}}</a>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.spouse">
+      <div class="col-lg-3 col-12">
+        <h4>Spouse:</h4>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='view'">
+        <a class="underline" [routerLink]="['/redirect',card.spouse.split('api/').pop()]">{{card.spouse}}</a>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='redirect'">
+        <a class="underline" [routerLink]="['/view',card.spouse.split('api/').pop()]">{{card.spouse}}</a>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.allegiances && card.allegiances[0]">
+      <div class="col-lg-3 col-12">
+        <h4>Allegiances:</h4>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='view'">
+        <a class="underline" [routerLink]="['/redirect',allegiance.split('api/').pop()]" *ngFor="let allegiance of card.allegiances; let isLast=last">{{allegiance}}{{isLast?'':','}}
+          <br>
+        </a>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='redirect'">
+        <a class="underline" [routerLink]="['/view',allegiance.split('api/').pop()]" *ngFor="let allegiance of card.allegiances; let isLast=last">{{allegiance}}{{isLast?'':','}}
+          <br>
+        </a>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.books && card.books[0]">
+      <div class="col-lg-3 col-12">
+        <h4>Books:</h4>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='view'">
+        <a class="underline" [routerLink]="['/redirect',book.split('api/').pop()]" *ngFor="let book of card.books; let isLast=last">{{book}}{{isLast?'':','}}
+          <br>
+        </a>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='redirect'">
+        <a class="underline" [routerLink]="['/view',book.split('api/').pop()]" *ngFor="let book of card.books; let isLast=last">{{book}}{{isLast?'':','}}
+          <br>
+        </a>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.povbooks && card.povbooks[0]">
+      <div class="col-lg-3 col-12">
+        <h4>Pov Books:</h4>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='view'">
+        <a class="underline" [routerLink]="['/redirect',povbook.split('api/').pop()]" *ngFor="let povbook of card.povbooks; let isLast=last">{{povbook}}{{isLast?'':','}}
+          <br>
+        </a>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='redirect'">
+        <a class="underline" [routerLink]="['/view',povbook.split('api/').pop()]" *ngFor="let povbook of card.povbooks; let isLast=last">{{povbook}}{{isLast?'':','}}
+          <br>
+        </a>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.tvseries && card.tvseries[0]">
+      <div class="col-lg-3 col-12">
+        <h4>Tv Series:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        <span *ngFor="let tv of card.tvseries; let isLast=last">{{tv}}{{isLast?'':','}}
+        </span>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.playedby && card.playedby[0]">
+      <div class="col-lg-3 col-12">
+        <h4>Played By:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        <span *ngFor="let play of card.playedby; let isLast=last">{{play}}{{isLast?'':','}}
+        </span>
+      </div>
+    </div>
+    <!-- rows for books url -->
+    <div class="row" *ngIf="card.isbn">
+      <div class="col-lg-3 col-12">
+        <h4>Isbn Number:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.isbn}}
+      </div>
+    </div>
+    <div class="row" *ngIf="card.authors && card.authors[0]">
+      <div class="col-lg-3 col-12">
+        <h4>Authors:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        <span *ngFor="let author of card.authors; let isLast=last">{{author}}{{isLast?'':','}}</span>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.numberOfPages">
+      <div class="col-lg-3 col-12">
+        <h4>Pages:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.numberOfPages}}
+      </div>
+    </div>
+    <div class="row" *ngIf="card.publisher">
+      <div class="col-lg-3 col-12">
+        <h4>Publisher:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.publisher}}
+      </div>
+    </div>
+    <div class="row" *ngIf="card.country">
+      <div class="col-lg-3 col-12">
+        <h4>Country:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.country}}
+      </div>
+    </div>
+    <div class="row" *ngIf="card.mediaType">
+      <div class="col-lg-3 col-12">
+        <h4>Media Type:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.mediaType}}
+      </div>
+    </div>
+    <div class="row" *ngIf="card.released">
+      <div class="col-lg-3 col-12">
+        <h4>Release Date:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.released | date}}
+      </div>
+    </div>
+    <div class="row" *ngIf="card.characters && card.characters[0]">
+      <div class="col-lg-3 col-12">
+        <h4>Characters:</h4>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='view'">
+        <a class="underline" [routerLink]="['/redirect',character.split('api/').pop()]" *ngFor="let character of card.characters | slice:0:show; let isLast=last">{{character}}{{isLast?'':','}}
+          <br>
+        </a>
+        <!-- by clicking this, 5 array elements will keep extending in the view for characters key in books card only -->
+        <a class="underline text-primary" (click)="show=show+5" *ngIf="show < card.characters.length">show more (+5)</a>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='redirect'">
+        <a class="underline" [routerLink]="['/view',character.split('api/').pop()]" *ngFor="let character of card.characters | slice:0:show; let isLast=last">{{character}}{{isLast?'':','}}
+          <br>
+        </a>
+        <a class="underline text-primary" (click)="show=show+5" *ngIf="show < card.characters.length">show more (+5)</a>
+      </div>
+    </div>
+    <div *ngIf="card.characters && card.characters[0]">
+      <br>
+    </div>
+    <div class="row" *ngIf="card.povCharacters && card.povCharacters[0]">
+      <div class="col-lg-3 col-12">
+        <h4>POV Characters:</h4>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='view'">
+        <a class="underline" [routerLink]="['/redirect',character.split('api/').pop()]" *ngFor="let character of card.povCharacters; let isLast=last">{{character}}{{isLast?'':','}}
+          <br>
+        </a>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='redirect'">
+        <a class="underline" [routerLink]="['/view',character.split('api/').pop()]" *ngFor="let character of card.povCharacters; let isLast=last">{{character}}{{isLast?'':','}}
+          <br>
+        </a>
+      </div>
+    </div>
+    <!-- rows for houses url -->
+    <div class="row" *ngIf="card.region">
+      <div class="col-lg-3 col-12">
+        <h4>Region:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.region}}
+      </div>
+    </div>
+    <div class="row" *ngIf="card.coatOfArms">
+      <div class="col-lg-3 col-12">
+        <h4>Coat Of Arms:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.coatOfArms}}
+      </div>
+    </div>
+    <div class="row" *ngIf="card.words">
+      <div class="col-lg-3 col-12">
+        <h4>Words:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.words}}
+      </div>
+    </div>
+    <div class="row" *ngIf="card.seats && card.seats[0]">
+      <div class="col-lg-3 col-12">
+        <h4>Seats:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        <span *ngFor="let seat of card.seats; let isLast=last">{{seat}}{{isLast?'':','}}
+        </span>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.currentLord">
+      <div class="col-lg-3 col-12">
+        <h4>Current Lord:</h4>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='view'">
+        <a class="underline" [routerLink]="['/redirect',card.currentLord.split('api/').pop()]">{{card.currentLord}}</a>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='redirect'">
+        <a class="underline" [routerLink]="['/view',card.currentLord.split('api/').pop()]">{{card.currentLord}}</a>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.overLord">
+      <div class="col-lg-3 col-12">
+        <h4>Over Lord:</h4>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='view'">
+        <a class="underline" [routerLink]="['/redirect',card.overLord.split('api/').pop()]">{{card.overLord}}</a>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='redirect'">
+        <a class="underline" [routerLink]="['/view',card.overLord.split('api/').pop()]">{{card.overLord}}</a>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.founded">
+      <div class="col-lg-3 col-12">
+        <h4>Founded:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.founded}}
+      </div>
+    </div>
+    <div class="row" *ngIf="card.founder">
+      <div class="col-lg-3 col-12">
+        <h4>Founder:</h4>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='view'">
+        <a class="underline" [routerLink]="['/redirect',card.founder.split('api/').pop()]">{{card.founder}}</a>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='redirect'">
+        <a class="underline" [routerLink]="['/view',card.founder.split('api/').pop()]">{{card.founder}}</a>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.diedOut">
+      <div class="col-lg-3 col-12">
+        <h4>Died:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        {{card.diedOut}}
+      </div>
+    </div>
+    <div class="row" *ngIf="card.ancestralWeapons && card.ancestralWeapons[0]">
+      <div class="col-lg-3 col-12">
+        <h4>Ancestral Weapons:</h4>
+      </div>
+      <div class="col-lg-7 col-12">
+        <span *ngFor="let weapon of card.ancestralWeapons; let isLast=last">{{weapon}}{{isLast?'':','}}
+        </span>
+      </div>
+    </div>
+    <div class="row" *ngIf="card.cadetBranches && card.cadetBranches[0]">
+      <div class="col-lg-3 col-12">
+        <h4>Cadet Branches:</h4>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='view'">
+        <a class="underline" [routerLink]="['/redirect',branch.split('api/').pop()]" *ngFor="let branch of card.cadetBranches; let isLast=last">{{branch}}{{isLast?'':','}}
+          <br>
+        </a>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='redirect'">
+        <a class="underline" [routerLink]="['/view',branch.split('api/').pop()]" *ngFor="let branch of card.cadetBranches; let isLast=last">{{branch}}{{isLast?'':','}}
+          <br>
+        </a>
+      </div>
+    </div>
+    <div *ngIf="card.cadetBranches && card.cadetBranches[0]">
+      <br>
+    </div>
+    <div class="row" *ngIf="card.swornMembers && card.swornMembers[0]">
+      <div class="col-lg-3 col-12">
+        <h4>Sworn Members:</h4>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='view'">
+        <a class="underline" [routerLink]="['/redirect',member.split('api/').pop()]" *ngFor="let member of card.swornMembers; let isLast=last">{{member}}{{isLast?'':','}}
+          <br>
+        </a>
+      </div>
+      <div class="col-lg-7 col-12" *ngIf="router.url.split('/')[1]=='redirect'">
+        <a class="underline" [routerLink]="['/view',member.split('api/').pop()]" *ngFor="let member of card.swornMembers; let isLast=last">{{member}}{{isLast?'':','}}
+          <br>
+        </a>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="container">
+    <div>
+      <button type="button" class="btn btn-warning" (click)="goBackToPreviousPage()">Go Back</button>
+    </div>
+  </div>
+</div>
