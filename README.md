@@ -1,27 +1,14 @@
-# GameOfThrones
+# Ice & Fire
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
+> Explore all the books, characters and houses of the popular series, 'Game of Thrones'.
 
-## Development server
+The app shows a list of all the books, characters and houses of the popular series, 'A Song of Ice & Fire'. By clicking any of the item from the list, you get detailed information about it. It also has the feature to filter the list based on name or type. The API which is used to get backend data is https://anapioficeandfire.com
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+[Click Here](https://sharan3009.github.io/got) to check the website.
 
-## Code scaffolding
+![](screenshots/got.png)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Built With
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- Angular 6
+- Bootstrap
